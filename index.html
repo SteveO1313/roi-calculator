@@ -19,9 +19,9 @@ body {
 .card {
     background: white;
     padding: 30px;
-    width: 420px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    width: 440px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 h1 {
@@ -39,14 +39,14 @@ h1 {
 
 label {
     font-size: 14px;
-    display: block;
     margin-bottom: 5px;
+    display: block;
 }
 
 input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
     border-radius: 8px;
     border: 1px solid #ddd;
     font-size: 14px;
@@ -69,8 +69,8 @@ button:hover {
 
 .result-box {
     margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 16px;
+    border-radius: 10px;
     background: #eef2ff;
     font-size: 14px;
 }
@@ -80,14 +80,21 @@ button:hover {
     font-size: 16px;
 }
 
-.red {
-    color: #dc2626;
+.green { color: #16a34a; }
+.orange { color: #ea580c; }
+.red { color: #dc2626; }
+
+.bar-container {
+    margin-top: 10px;
+    height: 10px;
+    background: #ddd;
+    border-radius: 6px;
 }
 
-.green {
-    color: #16a34a;
+.bar {
+    height: 10px;
+    border-radius: 6px;
 }
-
 .note {
     font-size: 12px;
     margin-top: 10px;
@@ -156,14 +163,34 @@ function calculate() {
 
     let targetROI = price / netForAds;
 
+    let level = "";
+    let color = "";
+    let barWidth = Math.min(targetROI * 20, 100);
+
+    if (targetROI >= 3) {
+        level = "ROI สูง ยิงยาก ต้องครีเอทีฟและระบบแข็งแรง";
+        color = "red";
+    } else if (targetROI >= 2) {
+        level = "ROI ปานกลาง ยิงได้ถ้าสินค้าดี";
+        color = "orange";
+    } else {
+        level = "ROI ต่ำ ยิงง่าย แต่กำไรต่อชิ้นจะลดลง";
+        color = "green";
+    }
+
     resultBox.innerHTML = `
         ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br><br>
         เงินคงเหลือก่อนยิงแอด: ${formatNumber(remaining)} บาท<br><br>
         <span class="highlight">งบยิงแอดสูงสุดต่อออเดอร์: ${formatNumber(netForAds)} บาท</span><br><br>
-        <span class="highlight green">🎯 Target ROI สำหรับ GMV Max: ${formatNumber(targetROI)}</span><br><br>
+        <span class="highlight ${color}">🎯 Target ROI สำหรับ GMV Max: ${formatNumber(targetROI)}</span><br>
+        <div class="bar-container">
+            <div class="bar ${color}" style="width:${barWidth}%; background:${color};"></div>
+        </div>
+        <br>
+        <b>${level}</b>
         <div class="note">
         👉 ให้นำค่า <b>${formatNumber(targetROI)}</b> ไปใส่ในช่อง Target ROI ของ TikTok GMV Max<br>
-        👉 ค่านี้ไม่ใช่ ROI % แต่คือ GMV ÷ ค่าโฆษณา
+        👉 ค่านี้คือ GMV ÷ ค่าโฆษณา ไม่ใช่ ROI %
         </div>
     `;
 }
@@ -171,4 +198,3 @@ function calculate() {
 
 </body>
 </html>
-

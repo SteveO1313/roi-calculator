@@ -90,14 +90,14 @@ button {
     line-height: 1.6;
 }
 
-/* ===== ADS STRENGTH BAR ===== */
+/* ===== SaaS Strength Meter ===== */
 
-.strength-wrapper {
-    margin-top: 18px;
+.meter-wrapper {
+    margin-top: 22px;
 }
 
-.strength-bar {
-    height: 14px;
+.meter-bar {
+    height: 16px;
     border-radius: 999px;
     background: linear-gradient(
         90deg,
@@ -111,25 +111,48 @@ button {
     position: relative;
 }
 
-.strength-indicator {
+.meter-indicator {
     position: absolute;
-    top: -6px;
-    width: 4px;
-    height: 26px;
-    background: #111827;
-    border-radius: 4px;
-    transition: left 0.4s ease;
+    top: -28px;
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+    text-align: center;
 }
 
-.strength-label {
-    margin-top: 10px;
+.meter-value {
+    background: #111827;
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+
+.meter-line {
+    width: 3px;
+    height: 26px;
+    background: #111827;
+    margin: 0 auto;
+    border-radius: 3px;
+}
+
+.meter-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+.meter-label {
+    margin-top: 12px;
     font-weight: 600;
 }
 
 /* ===== PRO PLAN ===== */
 
 .pro-card {
-    margin-top: 50px;
+    margin-top: 60px;
     background: #111827;
     color: white;
     padding: 24px;
@@ -199,15 +222,12 @@ button {
 
 <label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
 <input type="number" id="fee">
-<div class="small-note">ค่าธรรมเนียมแต่ละหมวดไม่เท่ากัน กรุณาตรวจสอบใน Seller Center</div>
 
 <label>คอมมิชชั่น Affiliate (%)</label>
 <input type="number" id="affiliate" value="0">
-<div class="small-note">ถ้าไม่มี Affiliate ให้ใส่ 0</div>
 
 <label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
 <input type="number" id="desiredProfit">
-<div class="small-note">กำไรสุทธิที่ต้องการหลังหักค่าแอด</div>
 
 <button onclick="calculate()">คำนวณ</button>
 
@@ -218,17 +238,15 @@ button {
 <div class="pro-card">
     <div class="pro-title">🚀 Pro Mode สำหรับร้านที่ยิง GMV Max จริงจัง</div>
     <div class="pro-sub">วิเคราะห์ภาพรวมทั้งร้าน ไม่ใช่แค่ 1 SKU</div>
-
     <ul>
         <li>✔ วิเคราะห์หลายสินค้า</li>
         <li>✔ ดูกำไรรวมทั้งร้าน</li>
         <li>✔ วิเคราะห์ CPA รายแคมเปญ</li>
         <li>✔ Export รายงาน</li>
     </ul>
-
     <div class="pro-price">199 บาท / เดือน</div>
     <button class="pro-btn">ปลดล็อก Pro Mode</button>
-    <div class="pro-note">Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง</div>
+    <div class="pro-note">Free version ใช้ได้ตลอด</div>
 </div>
 
 </div>
@@ -260,8 +278,7 @@ function calculate() {
     resultBox.style.display = "block";
 
     if (netForAds <= 0) {
-        resultBox.innerHTML = `
-        <div style="color:#dc2626;font-weight:bold;">
+        resultBox.innerHTML = `<div style="color:#dc2626;font-weight:bold;">
         ❌ โครงสร้างราคานี้ไม่สามารถทำกำไรตามที่ต้องการได้
         </div>`;
         return;
@@ -269,23 +286,20 @@ function calculate() {
 
     let targetROI = price / netForAds;
 
-    /* ===== Dynamic Strength Position ===== */
     let minROI = 1;
     let maxROI = 4;
-
     let normalized = (targetROI - minROI) / (maxROI - minROI);
     normalized = Math.max(0, Math.min(1, normalized));
-
     let positionPercent = normalized * 100;
 
     let strengthText = "";
     let strengthColor = "";
 
     if (targetROI <= 1.8) {
-        strengthText = "🔥 ดีมาก (Ads แข็งแรง ขยายได้)";
+        strengthText = "🔥 ดีมาก (ขยายแคมเปญได้)";
         strengthColor = "#16a34a";
     } else if (targetROI <= 2.5) {
-        strengthText = "⚖️ ปานกลาง (ต้อง Optimize เพิ่ม)";
+        strengthText = "⚖️ ปานกลาง (ควร Optimize เพิ่ม)";
         strengthColor = "#f59e0b";
     } else {
         strengthText = "⚠️ แย่ (เสี่ยงแพง / กำไรบาง)";
@@ -298,11 +312,22 @@ function calculate() {
     💰 งบยิงแอดสูงสุด: <b>${formatNumber(netForAds)} บาท</b><br><br>
     🎯 Target ROI: <b style="font-size:18px;">${formatNumber(targetROI)}</b>
 
-    <div class="strength-wrapper">
-        <div class="strength-bar">
-            <div class="strength-indicator" style="left:${positionPercent}%"></div>
+    <div class="meter-wrapper">
+        <div class="meter-bar">
+            <div class="meter-indicator" style="left:${positionPercent}%;">
+                <div class="meter-value">${formatNumber(targetROI)}</div>
+                <div class="meter-line"></div>
+            </div>
         </div>
-        <div class="strength-label" style="color:${strengthColor};">
+
+        <div class="meter-scale">
+            <span>1.0</span>
+            <span>1.8</span>
+            <span>2.5</span>
+            <span>4.0+</span>
+        </div>
+
+        <div class="meter-label" style="color:${strengthColor};">
             ${strengthText}
         </div>
     </div>

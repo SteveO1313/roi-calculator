@@ -11,7 +11,7 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
     padding: 20px;
     color: #111827;
 }
@@ -25,10 +25,11 @@ body {
 .card {
     background: white;
     padding: 22px;
-    border-radius: 18px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.06);
 }
 
+/* Headings */
 h1 {
     font-size: 20px;
     text-align: center;
@@ -39,23 +40,25 @@ h1 {
     text-align: center;
     font-size: 13px;
     color: #6b7280;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
+/* Form */
 label {
     font-size: 14px;
-    font-weight: 600;
-    display: block;
+    font-weight: 500;
     margin-bottom: 6px;
+    display: block;
 }
 
 input {
     width: 100%;
     padding: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 14px;
     border-radius: 14px;
     border: 1px solid #e5e7eb;
     font-size: 16px;
+    transition: 0.2s;
 }
 
 input:focus {
@@ -65,10 +68,12 @@ input:focus {
 
 .small-note {
     font-size: 12px;
-    color: #6b7280;
+    color: #9ca3af;
+    margin-top: -6px;
     margin-bottom: 16px;
 }
 
+/* Button */
 button {
     width: 100%;
     padding: 16px;
@@ -79,8 +84,14 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.2s;
 }
 
+button:active {
+    transform: scale(0.98);
+}
+
+/* Result */
 .result-box {
     margin-top: 20px;
     padding: 18px;
@@ -89,99 +100,163 @@ button {
     font-size: 14px;
     line-height: 1.6;
 }
+
+/* ===== PRO PLAN (Premium UI) ===== */
+
+.pro-wrapper {
+    margin-top: 50px;
+}
+
+.pro-card {
+    background: white;
+    padding: 26px;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+    position: relative;
+    border: 1px solid #eef2ff;
+}
+
+.pro-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: linear-gradient(90deg,#4f46e5,#6366f1);
+    color: white;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.pro-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.pro-sub {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+.pro-card ul {
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #374151;
+}
+
+.pro-price {
+    margin-top: 22px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.pro-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #6b7280;
+}
+
+.pro-btn {
+    margin-top: 20px;
+    padding: 15px;
+    width: 100%;
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(90deg,#22c55e,#16a34a);
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pro-btn:active {
+    transform: scale(0.98);
+}
+
+.pro-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
 <div class="card">
+    <h1>GMV Max Profit Control Tool</h1>
+    <div class="subtitle">คำนวณ Target ROI เพื่อควบคุมกำไรอย่างแม่นยำ</div>
 
-<h1>GMV Max Profit Control Tool</h1>
-<div class="subtitle">คำนวณ Target ROI เพื่อควบคุมกำไรอย่างแม่นยำ</div>
+    <label>ราคาขายสุทธิหลังหักส่วนลด (บาท)</label>
+    <input type="number" id="price">
+    <div class="small-note">ราคาที่ลูกค้าจ่ายจริงหลังใช้โค้ดหรือโปร</div>
 
-<label>ราคาขายสุทธิหลังหักส่วนลด (บาท)</label>
-<input type="number" id="price">
-<div class="small-note">
-ราคาที่ลูกค้าจ่ายจริงหลังใช้โค้ด / Flash Sale
+    <label>ต้นทุนสินค้า (บาท)</label>
+    <input type="number" id="cost">
+
+    <label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
+    <input type="number" id="fee">
+
+    <label>คอมมิชชั่น Affiliate (%)</label>
+    <input type="number" id="affiliate" value="0">
+
+    <label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
+    <input type="number" id="desiredProfit">
+
+    <button onclick="calculate()">คำนวณ</button>
+
+    <div class="result-box" id="result" style="display:none;"></div>
 </div>
 
-<label>ต้นทุนสินค้า (บาท)</label>
-<input type="number" id="cost">
-<div class="small-note">
-รวมต้นทุนสินค้า + แพ็กเกจ + ค่าขนส่งที่ร้านออกเอง
+<!-- PRO PLAN -->
+
+<div class="pro-wrapper">
+    <div class="pro-card">
+
+        <div class="pro-badge">RECOMMENDED</div>
+
+        <div class="pro-title">🚀 GMV Max Pro Plan</div>
+
+        <div class="pro-sub">
+            สำหรับร้านที่ยิงแอดจริงจัง และต้องการควบคุมกำไรทั้งร้าน
+        </div>
+
+        <ul>
+            <li>บันทึกหลายสินค้า</li>
+            <li>วิเคราะห์ CPA รายแคมเปญ</li>
+            <li>คำนวณกำไรรวมทั้งร้าน</li>
+            <li>Export รายงาน</li>
+        </ul>
+
+        <div class="pro-price">
+            ฿199 <span>/ เดือน</span>
+        </div>
+
+        <button class="pro-btn">
+            ปลดล็อก Pro Mode
+        </button>
+
+        <div class="pro-note">
+            Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง
+        </div>
+
+    </div>
 </div>
 
-<label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
-<input type="number" id="fee">
-<div class="small-note">
-ค่าธรรมเนียมแต่ละหมวดไม่เท่ากัน กรุณาตรวจสอบใน Seller Center
-</div>
-
-<label>คอมมิชชั่น Affiliate (%)</label>
-<input type="number" id="affiliate" value="0">
-<div class="small-note">
-ถ้าไม่มี Affiliate ให้ใส่ 0
-</div>
-
-<label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
-<input type="number" id="desiredProfit">
-<div class="small-note">
-กำไรสุทธิที่ต้องการหลังหักค่าแอด
-</div>
-
-<button onclick="calculate()">คำนวณ</button>
-
-<div class="result-box" id="result" style="display:none;"></div>
-
-    <!-- PRO PLAN SECTION -->
-<div style="
-    margin-top:24px;
-    padding:20px;
-    border-radius:16px;
-    background: linear-gradient(135deg,#111827,#1f2937);
-    color:white;
-">
-
-<div style="font-weight:600;font-size:16px;margin-bottom:6px;">
-🚀 GMV Max Pro Plan
-</div>
-
-<div style="font-size:13px;opacity:0.8;margin-bottom:16px;">
-ปลดล็อกฟีเจอร์ขั้นสูงสำหรับร้านที่ยิงแอดจริงจัง
-</div>
-
-<ul style="padding-left:18px;font-size:13px;line-height:1.6;opacity:0.9;">
-<li>คำนวณกำไรหลาย SKU พร้อมกัน</li>
-<li>บันทึกสูตรกำไรอัตโนมัติ</li>
-<li>คำนวณส่วนลด % และ บาท แยกอัตโนมัติ</li>
-<li>ดู Breakeven ROAS ทันที</li>
-</ul>
-
-<button style="
-    margin-top:16px;
-    background:#6366f1;
-    border:none;
-    padding:12px;
-    width:100%;
-    border-radius:12px;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-">
-Upgrade to Pro
-</button>
-
-</div>
-
-</div>
 </div>
 
 <script>
 function formatNumber(num) {
-    return num.toLocaleString('th-TH', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+    return num.toLocaleString('th-TH', { 
+        minimumFractionDigits: 2, 
+        maximumFractionDigits: 2 
     });
 }
 

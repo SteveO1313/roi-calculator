@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GMV Max Target ROI Planner</title>
+<title>GMV Max Profit Control Tool</title>
 
 <style>
 body {
@@ -19,7 +19,7 @@ body {
 .card {
     background: white;
     padding: 30px;
-    width: 440px;
+    width: 460px;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
@@ -95,10 +95,17 @@ button:hover {
     height: 10px;
     border-radius: 6px;
 }
+
 .note {
     font-size: 12px;
     margin-top: 10px;
     color: gray;
+}
+.small-note {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: -10px;
+    margin-bottom: 14px;
 }
 </style>
 </head>
@@ -106,17 +113,21 @@ button:hover {
 <body>
 
 <div class="card">
-    <h1>GMV Max Target ROI Planner</h1>
-    <div class="subtitle">คำนวณค่า ROI ที่ต้องใส่ใน TikTok GMV Max</div>
+    <h1>GMV Max Profit Control Tool</h1>
+    <div class="subtitle">คำนวณ Target ROI เพื่อควบคุมกำไรอย่างแม่นยำ</div>
 
-    <label>ราคาขายสินค้า (บาท)</label>
+    <label>ราคาขายสุทธิหลังหักส่วนลด (บาท)</label>
     <input type="number" id="price">
+    <div class="small-note">*กรอกราคาที่ลูกค้าจ่ายจริงหลังใช้โค้ดหรือโปร</div>
 
     <label>ต้นทุนสินค้า (บาท)</label>
     <input type="number" id="cost">
 
     <label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
     <input type="number" id="fee">
+
+    <label>คอมมิชชั่น Affiliate (%)</label>
+    <input type="number" id="affiliate">
 
     <label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
     <input type="number" id="desiredProfit">
@@ -135,6 +146,7 @@ function calculate() {
     let price = parseFloat(document.getElementById("price").value);
     let cost = parseFloat(document.getElementById("cost").value);
     let feePercent = parseFloat(document.getElementById("fee").value);
+    let affiliatePercent = parseFloat(document.getElementById("affiliate").value);
     let desiredProfit = parseFloat(document.getElementById("desiredProfit").value);
 
     if (isNaN(price) || isNaN(cost) || isNaN(feePercent) || isNaN(desiredProfit)) {
@@ -142,8 +154,14 @@ function calculate() {
         return;
     }
 
+    if (isNaN(affiliatePercent)) {
+        affiliatePercent = 0;
+    }
+
     let platformFee = price * (feePercent / 100);
-    let remaining = price - cost - platformFee;
+    let affiliateFee = price * (affiliatePercent / 100);
+
+    let remaining = price - cost - platformFee - affiliateFee;
     let netForAds = remaining - desiredProfit;
 
     let resultBox = document.getElementById("result");
@@ -181,6 +199,7 @@ function calculate() {
     resultBox.innerHTML = `
     <div style="font-size:13px;">
     ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br>
+    คอมมิชชั่น Affiliate: ${formatNumber(affiliateFee)} บาท<br>
     เงินคงเหลือก่อนกำไรเป้า: ${formatNumber(remaining)} บาท
     </div>
 
@@ -191,13 +210,13 @@ function calculate() {
     </div>
 
     <div style="margin-top:10px; padding:10px; background:#dcfce7; border-radius:8px;">
-        <b>🎯 ค่า Target ROI ที่ต้องใส่ใน TikTok GMV Max:</b><br>
+        <b>🎯 Target ROI ที่ต้องใส่ใน TikTok GMV Max:</b><br>
         <span style="font-size:20px;">${formatNumber(targetROI)}</span>
     </div>
 
     <div style="margin-top:10px;">
         📌 ถ้า CPA เกิน ${formatNumber(netForAds)} บาท = เริ่มกินกำไร<br>
-        📌 ระบบต้องทำ ROAS ได้อย่างน้อย ${formatNumber(targetROI)}
+        📌 ระบบต้องทำ ROAS ≥ ${formatNumber(targetROI)}
     </div>
 
     <div class="bar-container">
@@ -207,85 +226,11 @@ function calculate() {
     <div style="margin-top:8px;"><b>${level}</b></div>
 
     <div class="note">
-    ROAS = GMV ÷ ค่าโฆษณา (ไม่ใช่ ROI %)
+    เครื่องมือนี้ใช้ "ราคาสุทธิจริง" เพื่อคำนวณกำไรอย่างแม่นยำ
     </div>
 `;
-
 }
 </script>
-
-    <div style="
-margin-top:40px;
-padding:25px;
-background:linear-gradient(135deg,#111,#1e1e1e);
-color:white;
-border-radius:16px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-">
-
-<h3 style="margin-top:0;">🚀 Pro Mode สำหรับร้านที่ต้องการสเกลยอดขาย</h3>
-
-<p style="opacity:0.8; font-size:14px;">
-สำหรับร้านที่ยิง TikTok GMV Max จริงจัง และต้องการควบคุมกำไรอย่างแม่นยำ
-</p>
-
-<ul style="font-size:14px; line-height:1.8;">
-<li>✔ บันทึกหลายสินค้า</li>
-<li>✔ วิเคราะห์ CPA แบบละเอียด</li>
-<li>✔ คำนวณภาพรวมทั้งร้าน</li>
-<li>✔ Export รายงาน</li>
-</ul>
-
-        <div style="
-height:1px;
-background:#e5e5e5;
-margin:40px 0 25px 0;
-"></div>
-
-        <div style="
-display:inline-block;
-padding:4px 10px;
-background:linear-gradient(90deg,#22c55e,#16a34a);
-box-shadow:0 4px 10px rgba(34,197,94,0.3);
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-margin-bottom:10px;
-color:white;
-">
-แนะนำสำหรับร้านที่ยิง GMV Max
-</div>
-
-
-
-<div style="margin-top:20px;">
-<span style="font-size:28px; font-weight:bold;">199</span>
-<span style="font-size:14px; opacity:0.7;">บาท / เดือน</span>
-</div>
-
-
-<button style="
-margin-top:15px;
-padding:14px 22px;
-background:linear-gradient(90deg,#22c55e,#16a34a);
-border:none;
-border-radius:12px;
-color:white;
-font-weight:bold;
-font-size:15px;
-cursor:pointer;
-box-shadow:0 6px 15px rgba(34,197,94,0.4);
-transition:0.2s;
-">
-สมัครใช้งาน Pro
-</button>
-
-
-<p style="margin-top:10px; font-size:12px; opacity:0.6;">
-Free version ใช้ได้ตลอด ไม่มีวันหมดอายุ
-</p>
-
-</div>
 
 </body>
 </html>

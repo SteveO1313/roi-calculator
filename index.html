@@ -11,9 +11,9 @@ body {
     font-family: Arial, sans-serif;
     background: #f4f7fb;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    padding: 40px 20px;
 }
 
 .card {
@@ -80,32 +80,28 @@ button:hover {
     font-size: 16px;
 }
 
-.green { color: #16a34a; }
-.orange { color: #ea580c; }
-.red { color: #dc2626; }
-
-.bar-container {
-    margin-top: 10px;
-    height: 10px;
-    background: #ddd;
-    border-radius: 6px;
-}
-
-.bar {
-    height: 10px;
-    border-radius: 6px;
-}
-
 .note {
     font-size: 12px;
     margin-top: 10px;
     color: gray;
 }
+
 .small-note {
     font-size: 12px;
     color: #6b7280;
     margin-top: -10px;
     margin-bottom: 14px;
+}
+
+/* PRO SECTION */
+.pro-section {
+    margin-top: 50px;
+    padding: 30px;
+    width: 460px;
+    background: linear-gradient(135deg,#111,#1e1e1e);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 </style>
 </head>
@@ -137,6 +133,45 @@ button:hover {
     <div class="result-box" id="result" style="display:none;"></div>
 </div>
 
+
+<div class="pro-section">
+    <h3 style="margin-top:0;">🚀 Pro Mode สำหรับร้านที่ยิง GMV Max จริงจัง</h3>
+
+    <p style="opacity:0.8; font-size:14px;">
+    สำหรับร้านที่ต้องการควบคุมกำไรแบบมืออาชีพ
+    </p>
+
+    <ul style="font-size:14px; line-height:1.8;">
+        <li>✔ บันทึกหลายสินค้า</li>
+        <li>✔ วิเคราะห์ CPA แบบละเอียด</li>
+        <li>✔ คำนวณภาพรวมทั้งร้าน</li>
+        <li>✔ Export รายงาน</li>
+    </ul>
+
+    <div style="margin-top:20px;">
+        <span style="font-size:28px; font-weight:bold;">199</span>
+        <span style="font-size:14px; opacity:0.7;">บาท / เดือน</span>
+    </div>
+
+    <button style="
+    margin-top:15px;
+    padding:14px;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;">
+    ปลดล็อก Pro Mode
+    </button>
+
+    <p style="margin-top:10px; font-size:12px; opacity:0.6;">
+    Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง
+    </p>
+</div>
+
+
 <script>
 function formatNumber(num) {
     return num.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -154,81 +189,32 @@ function calculate() {
         return;
     }
 
-    if (isNaN(affiliatePercent)) {
-        affiliatePercent = 0;
-    }
+    if (isNaN(affiliatePercent)) affiliatePercent = 0;
 
     let platformFee = price * (feePercent / 100);
     let affiliateFee = price * (affiliatePercent / 100);
 
-    let remaining = price - cost - platformFee - affiliateFee;
-    let netForAds = remaining - desiredProfit;
+    let netForAds = price - cost - platformFee - affiliateFee - desiredProfit;
 
     let resultBox = document.getElementById("result");
     resultBox.style.display = "block";
 
     if (netForAds <= 0) {
         resultBox.innerHTML = `
-            <div class="red highlight">
-            ❌ โครงสร้างราคานี้ไม่สามารถทำกำไรตามที่ต้องการได้
-            </div>
-            <div class="note">
-            กรุณาปรับราคาขาย ต้นทุน หรือกำไรที่ต้องการ
-            </div>
-        `;
+        <div style="color:#dc2626;font-weight:bold;">
+        ❌ โครงสร้างราคานี้ไม่สามารถทำกำไรตามที่ต้องการได้
+        </div>`;
         return;
     }
 
     let targetROI = price / netForAds;
 
-    let level = "";
-    let color = "";
-    let barWidth = Math.min(targetROI * 20, 100);
-
-    if (targetROI >= 3) {
-        level = "ROI สูง ยิงยาก ต้องครีเอทีฟและระบบแข็งแรง";
-        color = "red";
-    } else if (targetROI >= 2) {
-        level = "ROI ปานกลาง ยิงได้ถ้าสินค้าดี";
-        color = "orange";
-    } else {
-        level = "ROI ต่ำ ยิงง่าย แต่กำไรต่อชิ้นจะลดลง";
-        color = "green";
-    }
-
     resultBox.innerHTML = `
-    <div style="font-size:13px;">
     ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br>
-    คอมมิชชั่น Affiliate: ${formatNumber(affiliateFee)} บาท<br>
-    เงินคงเหลือก่อนกำไรเป้า: ${formatNumber(remaining)} บาท
-    </div>
-
-    <hr>
-
-    <div class="highlight">
-    💰 งบยิงแอดสูงสุดต่อออเดอร์: ${formatNumber(netForAds)} บาท
-    </div>
-
-    <div style="margin-top:10px; padding:10px; background:#dcfce7; border-radius:8px;">
-        <b>🎯 Target ROI ที่ต้องใส่ใน TikTok GMV Max:</b><br>
-        <span style="font-size:20px;">${formatNumber(targetROI)}</span>
-    </div>
-
-    <div style="margin-top:10px;">
-        📌 ถ้า CPA เกิน ${formatNumber(netForAds)} บาท = เริ่มกินกำไร<br>
-        📌 ระบบต้องทำ ROAS ≥ ${formatNumber(targetROI)}
-    </div>
-
-    <div class="bar-container">
-        <div class="bar ${color}" style="width:${barWidth}%; background:${color};"></div>
-    </div>
-
-    <div style="margin-top:8px;"><b>${level}</b></div>
-
-    <div class="note">
-    เครื่องมือนี้ใช้ "ราคาสุทธิจริง" เพื่อคำนวณกำไรอย่างแม่นยำ
-    </div>
-`;
+    คอมมิชชั่น Affiliate: ${formatNumber(affiliateFee)} บาท<br><br>
+    💰 งบยิงแอดสูงสุด: <b>${formatNumber(netForAds)} บาท</b><br><br>
+    🎯 Target ROI: <b style="font-size:20px;">${formatNumber(targetROI)}</b>
+    `;
 }
 </script>
 

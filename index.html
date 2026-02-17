@@ -11,7 +11,7 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+    background: linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%);
     padding: 20px;
     color: #111827;
 }
@@ -29,7 +29,6 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.06);
 }
 
-/* Headings */
 h1 {
     font-size: 20px;
     text-align: center;
@@ -43,10 +42,9 @@ h1 {
     margin-bottom: 22px;
 }
 
-/* Form */
 label {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 6px;
     display: block;
 }
@@ -54,11 +52,10 @@ label {
 input {
     width: 100%;
     padding: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 6px;
     border-radius: 14px;
     border: 1px solid #e5e7eb;
     font-size: 16px;
-    transition: 0.2s;
 }
 
 input:focus {
@@ -68,12 +65,10 @@ input:focus {
 
 .small-note {
     font-size: 12px;
-    color: #9ca3af;
-    margin-top: -6px;
+    color: #6b7280;
     margin-bottom: 16px;
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 16px;
@@ -84,14 +79,8 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
-/* Result */
 .result-box {
     margin-top: 20px;
     padding: 18px;
@@ -101,42 +90,25 @@ button:active {
     line-height: 1.6;
 }
 
-/* ===== PRO PLAN (Premium UI) ===== */
-
-.pro-wrapper {
-    margin-top: 50px;
-}
+/* PRO PLAN - ORIGINAL STYLE */
 
 .pro-card {
-    background: white;
-    padding: 26px;
-    border-radius: 24px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.08);
-    position: relative;
-    border: 1px solid #eef2ff;
-}
-
-.pro-badge {
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: linear-gradient(90deg,#4f46e5,#6366f1);
+    margin-top: 50px;
+    background: #111827;
     color: white;
-    font-size: 11px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-weight: 600;
+    padding: 24px;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
 }
 
 .pro-title {
     font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 6px;
+    font-weight: bold;
 }
 
 .pro-sub {
     font-size: 13px;
-    color: #6b7280;
+    opacity: 0.7;
     margin-bottom: 18px;
 }
 
@@ -144,44 +116,30 @@ button:active {
     padding-left: 18px;
     font-size: 14px;
     line-height: 1.8;
-    color: #374151;
 }
 
 .pro-price {
-    margin-top: 22px;
-    font-size: 28px;
-    font-weight: 800;
-}
-
-.pro-price span {
-    font-size: 14px;
-    font-weight: 400;
-    color: #6b7280;
+    margin-top: 20px;
+    font-size: 26px;
+    font-weight: bold;
 }
 
 .pro-btn {
-    margin-top: 20px;
-    padding: 15px;
+    margin-top: 18px;
+    padding: 14px;
     width: 100%;
-    border-radius: 18px;
+    border-radius: 14px;
     border: none;
     background: linear-gradient(90deg,#22c55e,#16a34a);
     color: white;
-    font-weight: 700;
-    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
-}
-
-.pro-btn:active {
-    transform: scale(0.98);
 }
 
 .pro-note {
     margin-top: 10px;
     font-size: 12px;
-    color: #9ca3af;
-    text-align: center;
+    opacity: 0.6;
 }
 </style>
 </head>
@@ -191,73 +149,61 @@ button:active {
 <div class="container">
 
 <div class="card">
-    <h1>GMV Max Profit Control Tool</h1>
-    <div class="subtitle">คำนวณ Target ROI เพื่อควบคุมกำไรอย่างแม่นยำ</div>
 
-    <label>ราคาขายสุทธิหลังหักส่วนลด (บาท)</label>
-    <input type="number" id="price">
-    <div class="small-note">ราคาที่ลูกค้าจ่ายจริงหลังใช้โค้ดหรือโปร</div>
+<h1>GMV Max Profit Control Tool</h1>
+<div class="subtitle">คำนวณ Target ROI เพื่อควบคุมกำไรอย่างแม่นยำ</div>
 
-    <label>ต้นทุนสินค้า (บาท)</label>
-    <input type="number" id="cost">
+<label>ราคาขายสุทธิหลังหักส่วนลด (บาท)</label>
+<input type="number" id="price">
+<div class="small-note">ราคาที่ลูกค้าจ่ายจริงหลังใช้โค้ด / Flash Sale</div>
 
-    <label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
-    <input type="number" id="fee">
+<label>ต้นทุนสินค้า (บาท)</label>
+<input type="number" id="cost">
+<div class="small-note">รวมต้นทุนสินค้า + แพ็กเกจ + ค่าขนส่งที่ร้านออกเอง</div>
 
-    <label>คอมมิชชั่น Affiliate (%)</label>
-    <input type="number" id="affiliate" value="0">
+<label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
+<input type="number" id="fee">
+<div class="small-note">ค่าธรรมเนียมแต่ละหมวดไม่เท่ากัน กรุณาตรวจสอบใน Seller Center</div>
 
-    <label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
-    <input type="number" id="desiredProfit">
+<label>คอมมิชชั่น Affiliate (%)</label>
+<input type="number" id="affiliate" value="0">
+<div class="small-note">ถ้าไม่มี Affiliate ให้ใส่ 0</div>
 
-    <button onclick="calculate()">คำนวณ</button>
+<label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
+<input type="number" id="desiredProfit">
+<div class="small-note">กำไรสุทธิที่ต้องการหลังหักค่าแอด</div>
 
-    <div class="result-box" id="result" style="display:none;"></div>
+<button onclick="calculate()">คำนวณ</button>
+
+<div class="result-box" id="result" style="display:none;"></div>
+
 </div>
 
 <!-- PRO PLAN -->
 
-<div class="pro-wrapper">
-    <div class="pro-card">
+<div class="pro-card">
+    <div class="pro-title">🚀 Pro Mode สำหรับร้านที่ยิง GMV Max จริงจัง</div>
+    <div class="pro-sub">วิเคราะห์ภาพรวมทั้งร้าน ไม่ใช่แค่ 1 SKU</div>
 
-        <div class="pro-badge">RECOMMENDED</div>
+    <ul>
+        <li>✔ วิเคราะห์หลายสินค้า</li>
+        <li>✔ ดูภาพรวมกำไรรวมทั้งร้าน</li>
+        <li>✔ คำนวณ CPA รายแคมเปญ</li>
+        <li>✔ Export รายงาน</li>
+    </ul>
 
-        <div class="pro-title">🚀 GMV Max Pro Plan</div>
+    <div class="pro-price">199 บาท / เดือน</div>
 
-        <div class="pro-sub">
-            สำหรับร้านที่ยิงแอดจริงจัง และต้องการควบคุมกำไรทั้งร้าน
-        </div>
+    <button class="pro-btn">ปลดล็อก Pro Mode</button>
 
-        <ul>
-            <li>บันทึกหลายสินค้า</li>
-            <li>วิเคราะห์ CPA รายแคมเปญ</li>
-            <li>คำนวณกำไรรวมทั้งร้าน</li>
-            <li>Export รายงาน</li>
-        </ul>
-
-        <div class="pro-price">
-            ฿199 <span>/ เดือน</span>
-        </div>
-
-        <button class="pro-btn">
-            ปลดล็อก Pro Mode
-        </button>
-
-        <div class="pro-note">
-            Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง
-        </div>
-
-    </div>
+    <div class="pro-note">Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง</div>
 </div>
 
 </div>
 
 <script>
 function formatNumber(num) {
-    return num.toLocaleString('th-TH', { 
-        minimumFractionDigits: 2, 
-        maximumFractionDigits: 2 
-    });
+    return num.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function calculate() {
@@ -291,11 +237,28 @@ function calculate() {
 
     let targetROI = price / netForAds;
 
+    let strength = "";
+    let color = "";
+
+    if (targetROI <= 1.8) {
+        strength = "🔥 โซน Ads แข็งแรงมาก (ยิงง่าย ขยายได้)";
+        color = "#16a34a";
+    } else if (targetROI <= 2.5) {
+        strength = "⚖️ โซน Ads ปานกลาง (ต้อง Optimize)";
+        color = "#f59e0b";
+    } else {
+        strength = "⚠️ โซน Ads อ่อนแอ (เสี่ยงแพง / กำไรบาง)";
+        color = "#dc2626";
+    }
+
     resultBox.innerHTML = `
     ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br>
     คอมมิชชั่น Affiliate: ${formatNumber(affiliateFee)} บาท<br><br>
     💰 งบยิงแอดสูงสุด: <b>${formatNumber(netForAds)} บาท</b><br><br>
-    🎯 Target ROI: <b style="font-size:18px;">${formatNumber(targetROI)}</b>
+    🎯 Target ROI: <b style="font-size:18px;">${formatNumber(targetROI)}</b><br><br>
+    <div style="font-weight:bold;color:${color};">
+        ${strength}
+    </div>
     `;
 }
 </script>

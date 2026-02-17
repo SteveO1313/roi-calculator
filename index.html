@@ -1,127 +1,174 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>เครื่องคำนวณผลตอบแทน (ROI Calculator)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMV Max Target ROI Planner</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-    .card {
-      background: white;
-      padding: 30px;
-      width: 380px;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    }
+.card {
+    background: white;
+    padding: 30px;
+    width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
-    h1 {
-      font-size: 20px;
-      margin-bottom: 5px;
-      text-align: center;
-    }
+h1 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 5px;
+}
 
-    .subtitle {
-      text-align: center;
-      font-size: 13px;
-      color: gray;
-      margin-bottom: 20px;
-    }
+.subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 20px;
+}
 
-    label {
-      font-size: 14px;
-      display: block;
-      margin-bottom: 5px;
-    }
+label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-    }
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background: #2563eb;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
 
-    button:hover {
-      background: #1e40af;
-    }
+button:hover {
+    background: #1e40af;
+}
 
-    .result {
-      margin-top: 18px;
-      padding: 12px;
-      background: #eef2ff;
-      border-radius: 8px;
-      font-size: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #eef2ff;
+    font-size: 14px;
+}
 
-    .note {
-      font-size: 11px;
-      text-align: center;
-      margin-top: 12px;
-      color: gray;
-    }
-  </style>
+.highlight {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.red {
+    color: #dc2626;
+}
+
+.green {
+    color: #16a34a;
+}
+
+.note {
+    font-size: 12px;
+    margin-top: 10px;
+    color: gray;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <h1>เครื่องคำนวณผลตอบแทน</h1>
-    <div class="subtitle">ROI Calculator สำหรับเจ้าของร้านและนักยิงแอด</div>
+<div class="card">
+    <h1>GMV Max Target ROI Planner</h1>
+    <div class="subtitle">คำนวณค่า ROI ที่ต้องใส่ใน TikTok GMV Max</div>
 
-    <label>เงินลงทุน (Investment)</label>
-    <input type="number" id="investment" placeholder="เช่น 1000">
+    <label>ราคาขายสินค้า (บาท)</label>
+    <input type="number" id="price">
 
-    <label>รายได้ที่ได้รับ (Revenue)</label>
-    <input type="number" id="revenue" placeholder="เช่น 1500">
+    <label>ต้นทุนสินค้า (บาท)</label>
+    <input type="number" id="cost">
 
-    <button onclick="calculateROI()">คำนวณผลตอบแทน</button>
+    <label>ค่าธรรมเนียมแพลตฟอร์ม (%)</label>
+    <input type="number" id="fee">
 
-    <div class="result" id="result"></div>
+    <label>กำไรที่อยากได้ต่อชิ้น (บาท)</label>
+    <input type="number" id="desiredProfit">
 
-    <div class="note">
-      สูตรคำนวณ: (รายได้ - เงินลงทุน) ÷ เงินลงทุน × 100
-    </div>
-  </div>
+    <button onclick="calculate()">คำนวณ</button>
 
-  <script>
-    function calculateROI() {
-      let investment = parseFloat(document.getElementById("investment").value);
-      let revenue = parseFloat(document.getElementById("revenue").value);
+    <div class="result-box" id="result" style="display:none;"></div>
+</div>
 
-      if (isNaN(investment) || isNaN(revenue) || investment <= 0) {
-        document.getElementById("result").innerText = "กรุณากรอกข้อมูลให้ถูกต้อง";
+<script>
+function formatNumber(num) {
+    return num.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function calculate() {
+    let price = parseFloat(document.getElementById("price").value);
+    let cost = parseFloat(document.getElementById("cost").value);
+    let feePercent = parseFloat(document.getElementById("fee").value);
+    let desiredProfit = parseFloat(document.getElementById("desiredProfit").value);
+
+    if (isNaN(price) || isNaN(cost) || isNaN(feePercent) || isNaN(desiredProfit)) {
+        alert("กรุณากรอกข้อมูลให้ครบ");
         return;
-      }
-
-      let roi = ((revenue - investment) / investment) * 100;
-
-      document.getElementById("result").innerText = 
-        "ผลตอบแทน (ROI) = " + roi.toFixed(2) + " %";
     }
-  </script>
+
+    let platformFee = price * (feePercent / 100);
+    let remaining = price - cost - platformFee;
+    let netForAds = remaining - desiredProfit;
+
+    let resultBox = document.getElementById("result");
+    resultBox.style.display = "block";
+
+    if (netForAds <= 0) {
+        resultBox.innerHTML = `
+            <div class="red highlight">
+            ❌ โครงสร้างราคานี้ไม่สามารถทำกำไรตามที่ต้องการได้
+            </div>
+            <div class="note">
+            กรุณาปรับราคาขาย ต้นทุน หรือกำไรที่ต้องการ
+            </div>
+        `;
+        return;
+    }
+
+    let targetROI = price / netForAds;
+
+    resultBox.innerHTML = `
+        ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br><br>
+        เงินคงเหลือก่อนยิงแอด: ${formatNumber(remaining)} บาท<br><br>
+        <span class="highlight">งบยิงแอดสูงสุดต่อออเดอร์: ${formatNumber(netForAds)} บาท</span><br><br>
+        <span class="highlight green">🎯 Target ROI สำหรับ GMV Max: ${formatNumber(targetROI)}</span><br><br>
+        <div class="note">
+        👉 ให้นำค่า <b>${formatNumber(targetROI)}</b> ไปใส่ในช่อง Target ROI ของ TikTok GMV Max<br>
+        👉 ค่านี้ไม่ใช่ ROI % แต่คือ GMV ÷ ค่าโฆษณา
+        </div>
+    `;
+}
+</script>
 
 </body>
 </html>
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ROI Calculator</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 40px;
+      background: #f4f4f4;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>ROI Calculator</h2>
+  <label>Investment ($)</label>
+  <input id="investment" type="number">
+
+  <label>Revenue ($)</label>
+  <input id="revenue" type="number">
+
+  <button onclick="calculate()">Calculate ROI</button>
+
+  <h3 id="result"></h3>
+</div>
+
+<script>
+function calculate() {
+  const investment = parseFloat(document.getElementById("investment").value);
+  const revenue = parseFloat(document.getElementById("revenue").value);
+  
+  if (!investment || !revenue) {
+    document.getElementById("result").innerText = "Enter valid numbers";
+    return;
+  }
+
+  const roi = ((revenue - investment) / investment) * 100;
+  document.getElementById("result").innerText = "ROI: " + roi.toFixed(2) + "%";
+}
+</script>
+
+</body>
+</html>

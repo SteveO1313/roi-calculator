@@ -90,7 +90,43 @@ button {
     line-height: 1.6;
 }
 
-/* PRO PLAN - ORIGINAL STYLE */
+/* ===== ADS STRENGTH BAR ===== */
+
+.strength-wrapper {
+    margin-top: 18px;
+}
+
+.strength-bar {
+    height: 14px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #16a34a 0%,
+        #16a34a 33%,
+        #f59e0b 33%,
+        #f59e0b 66%,
+        #dc2626 66%,
+        #dc2626 100%
+    );
+    position: relative;
+}
+
+.strength-indicator {
+    position: absolute;
+    top: -6px;
+    width: 4px;
+    height: 26px;
+    background: #111827;
+    border-radius: 4px;
+    transition: left 0.4s ease;
+}
+
+.strength-label {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+/* ===== PRO PLAN ===== */
 
 .pro-card {
     margin-top: 50px;
@@ -179,23 +215,19 @@ button {
 
 </div>
 
-<!-- PRO PLAN -->
-
 <div class="pro-card">
     <div class="pro-title">🚀 Pro Mode สำหรับร้านที่ยิง GMV Max จริงจัง</div>
     <div class="pro-sub">วิเคราะห์ภาพรวมทั้งร้าน ไม่ใช่แค่ 1 SKU</div>
 
     <ul>
         <li>✔ วิเคราะห์หลายสินค้า</li>
-        <li>✔ ดูภาพรวมกำไรรวมทั้งร้าน</li>
-        <li>✔ คำนวณ CPA รายแคมเปญ</li>
+        <li>✔ ดูกำไรรวมทั้งร้าน</li>
+        <li>✔ วิเคราะห์ CPA รายแคมเปญ</li>
         <li>✔ Export รายงาน</li>
     </ul>
 
     <div class="pro-price">199 บาท / เดือน</div>
-
     <button class="pro-btn">ปลดล็อก Pro Mode</button>
-
     <div class="pro-note">Free version ใช้ได้ตลอด อัปเกรดเมื่อเริ่มยิงจริงจัง</div>
 </div>
 
@@ -237,27 +269,42 @@ function calculate() {
 
     let targetROI = price / netForAds;
 
-    let strength = "";
-    let color = "";
+    /* ===== Dynamic Strength Position ===== */
+    let minROI = 1;
+    let maxROI = 4;
+
+    let normalized = (targetROI - minROI) / (maxROI - minROI);
+    normalized = Math.max(0, Math.min(1, normalized));
+
+    let positionPercent = normalized * 100;
+
+    let strengthText = "";
+    let strengthColor = "";
 
     if (targetROI <= 1.8) {
-        strength = "🔥 โซน Ads แข็งแรงมาก (ยิงง่าย ขยายได้)";
-        color = "#16a34a";
+        strengthText = "🔥 ดีมาก (Ads แข็งแรง ขยายได้)";
+        strengthColor = "#16a34a";
     } else if (targetROI <= 2.5) {
-        strength = "⚖️ โซน Ads ปานกลาง (ต้อง Optimize)";
-        color = "#f59e0b";
+        strengthText = "⚖️ ปานกลาง (ต้อง Optimize เพิ่ม)";
+        strengthColor = "#f59e0b";
     } else {
-        strength = "⚠️ โซน Ads อ่อนแอ (เสี่ยงแพง / กำไรบาง)";
-        color = "#dc2626";
+        strengthText = "⚠️ แย่ (เสี่ยงแพง / กำไรบาง)";
+        strengthColor = "#dc2626";
     }
 
     resultBox.innerHTML = `
     ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br>
     คอมมิชชั่น Affiliate: ${formatNumber(affiliateFee)} บาท<br><br>
     💰 งบยิงแอดสูงสุด: <b>${formatNumber(netForAds)} บาท</b><br><br>
-    🎯 Target ROI: <b style="font-size:18px;">${formatNumber(targetROI)}</b><br><br>
-    <div style="font-weight:bold;color:${color};">
-        ${strength}
+    🎯 Target ROI: <b style="font-size:18px;">${formatNumber(targetROI)}</b>
+
+    <div class="strength-wrapper">
+        <div class="strength-bar">
+            <div class="strength-indicator" style="left:${positionPercent}%"></div>
+        </div>
+        <div class="strength-label" style="color:${strengthColor};">
+            ${strengthText}
+        </div>
     </div>
     `;
 }

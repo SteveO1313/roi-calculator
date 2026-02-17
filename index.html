@@ -179,20 +179,38 @@ function calculate() {
     }
 
     resultBox.innerHTML = `
-        ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br><br>
-        เงินคงเหลือก่อนยิงแอด: ${formatNumber(remaining)} บาท<br><br>
-        <span class="highlight">งบยิงแอดสูงสุดต่อออเดอร์: ${formatNumber(netForAds)} บาท</span><br><br>
-        <span class="highlight ${color}">🎯 Target ROI สำหรับ GMV Max: ${formatNumber(targetROI)}</span><br>
-        <div class="bar-container">
-            <div class="bar ${color}" style="width:${barWidth}%; background:${color};"></div>
-        </div>
-        <br>
-        <b>${level}</b>
-        <div class="note">
-        👉 ให้นำค่า <b>${formatNumber(targetROI)}</b> ไปใส่ในช่อง Target ROI ของ TikTok GMV Max<br>
-        👉 ค่านี้คือ GMV ÷ ค่าโฆษณา ไม่ใช่ ROI %
-        </div>
-    `;
+    <div style="font-size:13px;">
+    ค่าธรรมเนียมแพลตฟอร์ม: ${formatNumber(platformFee)} บาท<br>
+    เงินคงเหลือก่อนกำไรเป้า: ${formatNumber(remaining)} บาท
+    </div>
+
+    <hr>
+
+    <div class="highlight">
+    💰 งบยิงแอดสูงสุดต่อออเดอร์: ${formatNumber(netForAds)} บาท
+    </div>
+
+    <div style="margin-top:10px; padding:10px; background:#dcfce7; border-radius:8px;">
+        <b>🎯 ค่า Target ROI ที่ต้องใส่ใน TikTok GMV Max:</b><br>
+        <span style="font-size:20px;">${formatNumber(targetROI)}</span>
+    </div>
+
+    <div style="margin-top:10px;">
+        📌 ถ้า CPA เกิน ${formatNumber(netForAds)} บาท = เริ่มกินกำไร<br>
+        📌 ระบบต้องทำ ROAS ได้อย่างน้อย ${formatNumber(targetROI)}
+    </div>
+
+    <div class="bar-container">
+        <div class="bar ${color}" style="width:${barWidth}%; background:${color};"></div>
+    </div>
+
+    <div style="margin-top:8px;"><b>${level}</b></div>
+
+    <div class="note">
+    ROAS = GMV ÷ ค่าโฆษณา (ไม่ใช่ ROI %)
+    </div>
+`;
+
 }
 </script>
 

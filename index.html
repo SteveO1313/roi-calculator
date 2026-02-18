@@ -260,7 +260,11 @@ button {
     </ul>
     <div class="pro-price">199 บาท / เดือน</div>
     <button class="pro-btn"
-onclick="gtag('event','pro_click');">
+onclick="gtag('event','pro_click', {
+  event_category: 'engagement',
+  event_label: 'Pro Mode',
+  value: 1
+});">
 ปลดล็อก Pro Mode
 </button>
     <div class="pro-note">Free version ใช้ได้ตลอด</div>

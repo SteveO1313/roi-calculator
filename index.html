@@ -204,18 +204,12 @@ button {
 </head>
 
 <body>
-    <div style="
-  text-align:center;
-  font-size:13px;
-  color:#f59e0b;
-  margin-bottom:15px;
-">
+
+<div style="text-align:center;font-size:13px;color:#f59e0b;margin-bottom:15px;">
 🧪 Beta Version – เปิดให้ใช้ฟรีช่วงทดสอบ
 </div>
 
-
 <div class="container">
-
 <div class="card">
 
 <h1>GMV Max Profit Control Tool</h1>
@@ -241,26 +235,6 @@ button {
 <button onclick="calculate()">คำนวณ</button>
 
 <div class="result-box" id="result" style="display:none;"></div>
-    <!-- Feedback Section -->
-<div style="margin-top:20px;text-align:center;">
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXFzCCbwdjASzAPiik9m4L50XygXRa69qXV-i6yA4rBGP1CQ/viewform?usp=dialog"
-     target="_blank"
-     style="
-       display:inline-block;
-       padding:10px 18px;
-       font-size:14px;
-       color:#ffffff;
-       background-color:#6366f1;
-       border-radius:8px;
-       text-decoration:none;
-       transition:0.2s;
-     "
-     onmouseover="this.style.opacity='0.85'"
-     onmouseout="this.style.opacity='1'">
-     💬 ส่ง Feedback / เสนอฟีเจอร์
-  </a>
-</div>
-
 
 </div>
 
@@ -315,24 +289,26 @@ function calculate() {
 
     let targetROI = price / netForAds;
 
-    let minROI = 1;
-    let maxROI = 4;
-    let normalized = (targetROI - minROI) / (maxROI - minROI);
+    let normalized = (targetROI - 1) / (4 - 1);
     normalized = Math.max(0, Math.min(1, normalized));
     let positionPercent = normalized * 100;
 
     let strengthText = "";
     let strengthColor = "";
+    let zoneDescription = "";
 
     if (targetROI <= 1.8) {
-        strengthText = "🔥 ดีมาก (ขยายแคมเปญได้)";
+        strengthText = "🟢 Scale Volume Mode";
         strengthColor = "#16a34a";
+        zoneDescription = "กำไรต่อชิ้นน้อย / คำสั่งซื้อเยอะ เหมาะกับการดัน GMV และขยายยอด";
     } else if (targetROI <= 2.5) {
-        strengthText = "⚖️ ปานกลาง (ควร Optimize เพิ่ม)";
+        strengthText = "🟡 Balanced Mode";
         strengthColor = "#f59e0b";
+        zoneDescription = "กำไรและจำนวนคำสั่งซื้อสมดุลกัน ควบคุมความเสี่ยงได้ดี";
     } else {
-        strengthText = "⚠️ แย่ (เสี่ยงแพง / กำไรบาง)";
+        strengthText = "🔴 High Margin Mode";
         strengthColor = "#dc2626";
+        zoneDescription = "กำไรต่อชิ้นสูง / คำสั่งซื้ออาจน้อยลง เหมาะกับช่วงเน้น Margin";
     }
 
     resultBox.innerHTML = `
@@ -358,6 +334,10 @@ function calculate() {
 
         <div class="meter-label" style="color:${strengthColor};">
             ${strengthText}
+        </div>
+
+        <div style="margin-top:6px;font-size:13px;color:#374151;">
+            ${zoneDescription}
         </div>
     </div>
     `;
